@@ -19,7 +19,7 @@ from __future__ import division
 from __future__ import print_function
 
 import collections
-import csv
+import csv,codecs
 import os
 import modeling
 import optimization
@@ -196,7 +196,7 @@ class DataProcessor(object):
   @classmethod
   def _read_tsv(cls, input_file, quotechar=None):
     """Reads a tab separated value file."""
-    with tf.gfile.Open(input_file, "r",encoding="ISO-8859-1") as f:
+    with codecs.open(input_file, "r",encoding="ISO-8859-1") as f:
       reader = csv.reader(f, delimiter="\t", quotechar=quotechar)
       lines = []
       for line in reader:
