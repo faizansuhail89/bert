@@ -19,7 +19,7 @@ from __future__ import division
 from __future__ import print_function
 
 import collections
-import csv,codecs
+import csv,codecs,sys
 import os
 import modeling
 import optimization
@@ -196,6 +196,16 @@ class DataProcessor(object):
   @classmethod
   def _read_tsv(cls, input_file, quotechar=None):
     """Reads a tab separated value file."""
+    maxInt = sys.maxsize
+    while True:
+        # decrease the maxInt value by factor 10 
+        # as long as the OverflowError occurs.
+        try:
+            csv.field_size_limit(maxInt)
+            break
+        except OverflowError:
+            maxInt = int(maxInt/10)
+        
     with codecs.open(input_file, "r",encoding="ISO-8859-1") as f:
       reader = csv.reader(f, delimiter="\t", quotechar=quotechar)
       lines = []
