@@ -387,20 +387,20 @@ class ColaProcessor(DataProcessor):
 class OurProcessor(DataProcessor):
   """Processor for the CoLA data set (GLUE version)."""
 
-  def get_train_examples(self, data_dir):
+  def get_train_examples(self, data_dir, example_set):
     """See base class."""
     return self._create_examples(
-        self._read_tsv(os.path.join(data_dir, "train.tsv")), "train")
+        self._read_tsv(os.path.join(data_dir, "train.tsv")), "train", example_set)
 
-  def get_dev_examples(self, data_dir):
+  def get_dev_examples(self, data_dir, example_set):
     """See base class."""
     return self._create_examples(
-        self._read_tsv(os.path.join(data_dir, "dev.tsv")), "dev")
+        self._read_tsv(os.path.join(data_dir, "dev.tsv")), "dev", example_set)
 
-  def get_test_examples(self, data_dir):
+  def get_test_examples(self, data_dir, example_set):
     """See base class."""
     return self._create_examples(
-        self._read_tsv(os.path.join(data_dir, "test.tsv")), "test")
+        self._read_tsv(os.path.join(data_dir, "test.tsv")), "test", example_set)
 
   def get_labels(self):
     """See base class."""
