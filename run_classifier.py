@@ -211,6 +211,7 @@ class DataProcessor(object):
       reader = csv.reader(f, delimiter="\t", quotechar=quotechar)
       lines = []
       for line in reader:
+        print (line)
         lines.append(line)
       return lines
 
@@ -419,8 +420,7 @@ class OurProcessor(DataProcessor):
       if set_type == "test":
         text_a = tokenization.convert_to_unicode(line[1])
         label = "0"
-      else:
-        print (len(line))
+      else:          
         if example_set == 'A':  
             text_a = tokenization.convert_to_unicode(line[3])
             label = tokenization.convert_to_unicode(line[1])
