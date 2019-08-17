@@ -420,6 +420,7 @@ class OurProcessor(DataProcessor):
         text_a = tokenization.convert_to_unicode(line[1])
         label = "0"
       else:
+        print (len(line))
         if example_set == 'A':  
             text_a = tokenization.convert_to_unicode(line[3])
             label = tokenization.convert_to_unicode(line[1])
