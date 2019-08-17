@@ -435,7 +435,7 @@ class OurProcessor(DataProcessor):
             label = tokenization.convert_to_unicode(line[1])
             examples.append(
               InputExample(guid=guid, text_a=text_a, text_b=None, label=label))                        
-      return examples
+    return examples
 
 def convert_single_example(ex_index, example, label_list, max_seq_length,
                            tokenizer):
