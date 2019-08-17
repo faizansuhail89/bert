@@ -24,6 +24,7 @@ import os
 import modeling
 import optimization
 import tokenization
+import pandas as pd
 import tensorflow as tf
 
 flags = tf.flags
@@ -206,14 +207,13 @@ class DataProcessor(object):
             break
         except OverflowError:
             maxInt = int(maxInt/10)
-        
-    with codecs.open(input_file, "r",encoding="ISO-8859-1") as f:
-      reader = csv.reader(f, delimiter="\t", quotechar=quotechar)
-      lines = []
-      for line in reader:
-        print (line)
-        lines.append(line)
-      return lines
+    
+    input_data = pd.read_csv(input_file, sep='\t', encoding = "ISO-8859-1",
+                             header=None, dtype = str)    
+    lines = []    
+    for d in range(len(input_data)):
+        lines.append(input_data.iloc[d].tolist())
+    return lines
 
 
 class XnliProcessor(DataProcessor):
