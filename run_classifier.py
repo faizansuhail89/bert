@@ -406,7 +406,7 @@ class OurProcessor(DataProcessor):
     """See base class."""
     return ["0", "1", "2", "3"]
 
-  def _create_examples(self, lines, set_type):
+  def _create_examples(self, lines, set_type, example_set):
     """Creates examples for the training and dev sets."""
     examples = []
     for (i, line) in enumerate(lines):
@@ -420,11 +420,22 @@ class OurProcessor(DataProcessor):
         text_a = tokenization.convert_to_unicode(line[1])
         label = "0"
       else:
-        text_a = tokenization.convert_to_unicode(line[3])
-        label = tokenization.convert_to_unicode(line[1])
-      examples.append(
-          InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
-    return examples
+        if example_set == 'A':  
+            text_a = tokenization.convert_to_unicode(line[3])
+            label = tokenization.convert_to_unicode(line[1])
+            examples.append(
+              InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
+        elif example_set == 'Q_A':
+            text_a = tokenization.convert_to_unicode(line[5] + line[3])
+            label = tokenization.convert_to_unicode(line[1])
+            examples.append(
+              InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
+        else:
+            text_a = tokenization.convert_to_unicode(line[6])
+            label = tokenization.convert_to_unicode(line[1])
+            examples.append(
+              InputExample(guid=guid, text_a=text_a, text_b=None, label=label))                        
+      return examples
 
 def convert_single_example(ex_index, example, label_list, max_seq_length,
                            tokenizer):
