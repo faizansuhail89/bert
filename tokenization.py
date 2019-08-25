@@ -80,17 +80,19 @@ def convert_to_unicode(text):
   if six.PY3:
     if isinstance(text, str):
       return text
-    elif isinstance(text, bytes):
-      return text.decode("ISO-8859-1", "ignore")
     else:
-      raise ValueError("Unsupported string type: %s" % (type(text)))
+      try:
+        return text.decode("ISO-8859-1", "ignore")
+      except:
+        raise ValueError("Unsupported string type: %s" % (type(text)))
   elif six.PY2:
     if isinstance(text, str):
       return text.decode("ISO-8859-1", "ignore")
-    elif isinstance(text, unicode):
-      return text
     else:
-      raise ValueError("Unsupported string type: %s" % (type(text)))
+      try:
+        return text.decode("ISO-8859-1", "ignore")
+      except:
+        raise ValueError("Unsupported string type: %s" % (type(text)))
   else:
     raise ValueError("Not running on Python2 or Python 3?")
 
