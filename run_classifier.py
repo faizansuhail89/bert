@@ -208,7 +208,7 @@ class DataProcessor(object):
         except OverflowError:
             maxInt = int(maxInt/10)
     
-    input_data = pd.read_csv(input_file, sep='\t', encoding = "ISO-8859-1",
+    input_data = pd.read_csv(input_file, sep='\t', encoding = "utf-8",
                              header=None, dtype = str)    
     lines = []    
     for d in range(len(input_data)):
