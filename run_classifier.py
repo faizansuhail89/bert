@@ -207,12 +207,11 @@ class DataProcessor(object):
             break
         except OverflowError:
             maxInt = int(maxInt/10)
-    
-    input_data = pd.read_csv(input_file, sep='\t', encoding = "utf-8",
-                             header=None, dtype = str)    
-    lines = []    
-    for d in range(len(input_data)):
-        lines.append(input_data.iloc[d].tolist())
+    lines = []
+    with codecs.open(input_file,encoding='utf-8',errors ='ignore') as ifile:
+        reader = csv.reader(ifile, delimiter='\t')
+        for row in reader:
+            lines.append(row)
     return lines
 
 
