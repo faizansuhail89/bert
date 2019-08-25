@@ -422,18 +422,18 @@ class OurProcessor(DataProcessor):
         label = "0"
       else:          
         if example_set == 'A':  
-            text_a = line[3]
-            label = line[1]
+            text_a = tokenization.convert_to_unicode(line[3])
+            label = tokenization.convert_to_unicode(line[1])
             examples.append(
               InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
         elif example_set == 'Q_A':
-            text_a = line[5] + line[3]
-            label = line[1]
+            text_a = tokenization.convert_to_unicode(line[5] + ' ' + line[3])
+            label = tokenization.convert_to_unicode(line[1])
             examples.append(
               InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
         else:
-            text_a = line[6]
-            label = line[1]
+            text_a = tokenization.convert_to_unicode(line[6])
+            label = tokenization.convert_to_unicode(line[1])
             examples.append(
               InputExample(guid=guid, text_a=text_a, text_b=None, label=label))                        
     return examples
