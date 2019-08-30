@@ -80,7 +80,7 @@ def create_model(is_training, input_ids, input_mask, segment_ids, labels,
 
     per_example_loss = -tf.reduce_sum(one_hot_labels * log_probs, axis=-1)
     loss = tf.reduce_mean(per_example_loss)
-    tf.print("Loss: ", lss, output_stream=sys.stdout)
+
     return (loss, per_example_loss, logits, probabilities)
 
 
@@ -105,12 +105,13 @@ def model_fn_builder(num_labels, learning_rate, num_train_steps,
     (total_loss, per_example_loss, logits, probabilities) = create_model(
         is_training, input_ids, input_mask, segment_ids, label_ids, num_labels,
         bert_hub_module_handle)
+    tf.print("Loss: ", total_loss, output_stream=sys.stdout)
 
     output_spec = None
     if mode == tf.estimator.ModeKeys.TRAIN:
       train_op = optimization.create_optimizer(
           total_loss, learning_rate, num_train_steps, num_warmup_steps, use_tpu)
-
+      tf.print("Loss: ", total_loss, output_stream=sys.stdout)
       output_spec = tf.contrib.tpu.TPUEstimatorSpec(
           mode=mode,
           loss=total_loss,
