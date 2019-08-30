@@ -18,7 +18,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import os
+import os, sys
 import optimization
 import run_classifier
 import tokenization
@@ -80,7 +80,7 @@ def create_model(is_training, input_ids, input_mask, segment_ids, labels,
 
     per_example_loss = -tf.reduce_sum(one_hot_labels * log_probs, axis=-1)
     loss = tf.reduce_mean(per_example_loss)
-    print(loss)
+    tf.print("Loss: ", loss, output_stream=sys.stdout)
     return (loss, per_example_loss, logits, probabilities)
 
 
