@@ -106,7 +106,7 @@ def model_fn_builder(num_labels, learning_rate, num_train_steps,
         is_training, input_ids, input_mask, segment_ids, label_ids, num_labels,
         bert_hub_module_handle)
     train_hook_list= []
-    train_tensors_log = {'total _loss': total_loss,
+    train_tensors_log = {'total_loss': total_loss,
                          'per_example_loss': per_example_loss}
     train_hook_list.append(tf.train.LoggingTensorHook(
         tensors=train_tensors_log, every_n_iter=10))
