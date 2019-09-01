@@ -109,7 +109,7 @@ def model_fn_builder(num_labels, learning_rate, num_train_steps,
     train_tensors_log = {'total_loss': total_loss,
                          'per_example_loss': per_example_loss}
     train_hook_list.append(tf.train.LoggingTensorHook(
-        tensors=train_tensors_log, every_n_iter=10))
+        tensors=train_tensors_log, every_n_iter=1))
     output_spec = None
     if mode == tf.estimator.ModeKeys.TRAIN:
       train_op = optimization.create_optimizer(
