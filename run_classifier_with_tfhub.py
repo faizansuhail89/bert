@@ -80,14 +80,7 @@ def create_model(is_training, input_ids, input_mask, segment_ids, labels,
 
     per_example_loss = -tf.reduce_sum(one_hot_labels * log_probs, axis=-1)
     loss = tf.reduce_mean(per_example_loss)
-    
-    sess = tf.compat.v1.Session()
-    with sess.as_default():
-        prints = tf.print(loss)
-        with tf.control_dependencies([prints]):
-          loss = tf.identity(loss)
-        sess.run(loss)
-    
+
     return (loss, per_example_loss, logits, probabilities)
 
 
