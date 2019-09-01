@@ -80,7 +80,7 @@ def create_model(is_training, input_ids, input_mask, segment_ids, labels,
 
     per_example_loss = -tf.reduce_sum(one_hot_labels * log_probs, axis=-1)
     loss = tf.reduce_mean(per_example_loss)
-
+    loss = tf.Print(loss, [loss])
     return (loss, per_example_loss, logits, probabilities)
 
 
@@ -105,11 +105,7 @@ def model_fn_builder(num_labels, learning_rate, num_train_steps,
     (total_loss, per_example_loss, logits, probabilities) = create_model(
         is_training, input_ids, input_mask, segment_ids, label_ids, num_labels,
         bert_hub_module_handle)
-    train_hook_list= []
-    train_tensors_log = {'total_loss': total_loss,
-                         'per_example_loss': per_example_loss}
-    train_hook_list.append(tf.train.LoggingTensorHook(
-        tensors=train_tensors_log, every_n_iter=1))
+
     output_spec = None
     if mode == tf.estimator.ModeKeys.TRAIN:
       train_op = optimization.create_optimizer(
@@ -118,8 +114,7 @@ def model_fn_builder(num_labels, learning_rate, num_train_steps,
       output_spec = tf.contrib.tpu.TPUEstimatorSpec(
           mode=mode,
           loss=total_loss,
-          train_op=train_op,
-          training_hooks=train_hook_list)
+          train_op=train_op)
     elif mode == tf.estimator.ModeKeys.EVAL:
 
       def metric_fn(per_example_loss, label_ids, logits):
