@@ -81,13 +81,12 @@ def create_model(is_training, input_ids, input_mask, segment_ids, labels,
     per_example_loss = -tf.reduce_sum(one_hot_labels * log_probs, axis=-1)
     loss = tf.reduce_mean(per_example_loss)
     
-    sess = tf.compat.v1.Session()
-    with sess.as_default():
-      prints = tf.print(loss)
-      with tf.control_dependencies([prints]):
-        loss = tf.identity(loss)
-      sess.run(loss)
-    
+#    sess = tf.compat.v1.Session()
+#    with sess.as_default():
+#      prints = tf.print(loss)
+#      with tf.control_dependencies([prints]):
+#        loss = tf.identity(loss)
+#      sess.run(loss)    
     return (loss, per_example_loss, logits, probabilities)
 
 
@@ -118,9 +117,13 @@ def model_fn_builder(num_labels, learning_rate, num_train_steps,
       train_op = optimization.create_optimizer(
           total_loss, learning_rate, num_train_steps, num_warmup_steps, use_tpu)
 
+      logging_hook = tf.train.LoggingTensorHook({"loss": total_loss}, 
+                                              every_n_iter=10)
+    
       output_spec = tf.contrib.tpu.TPUEstimatorSpec(
           mode=mode,
           loss=total_loss,
+          training_hooks=[logging_hook],
           train_op=train_op)
     elif mode == tf.estimator.ModeKeys.EVAL:
 
